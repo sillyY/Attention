@@ -47,7 +47,9 @@ const Container = styled(Flex)`
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: red;
+  background-color: #E7E1D8;
+  border-radius: 20px;
+  box-shadow: 20px 40px 10 10 #E7E1D8;
 `
 function App() {
   return (

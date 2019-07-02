@@ -3,7 +3,15 @@ import { connect } from 'react-redux'
 
 import Toast from '../components/Toast'
 
+import * as actions from "../actionTypes"
+
 class Layout extends React.Component {
+  componentDidMount() {
+    console.log(this.props)
+    this.props.dispatch({
+      type: actions.TOGGLE_TIME
+    })
+  }
   render() {
     const { toast, children } = this.props
     return (

@@ -21,13 +21,15 @@ let win = null //主窗口
 const createWindow = () => {
   const mainWindowState = windowStateKeeper({
     defaultWidth: 320,
-    defaultHeight: 100
+    defaultHeight: 100,
+    x: 50,
+    y: 50
   })
   win = new BrowserWindow({
     minWidth: 320,
     minHeight: 100,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
+    width: 320,
+    height: 100,
     x: mainWindowState.x,
     y: mainWindowState.y,
     show: false,
