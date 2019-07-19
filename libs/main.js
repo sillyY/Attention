@@ -19,7 +19,7 @@ let win = null //主窗口
  * 创建主窗口
  */
 const createWindow = () => {
-  const mainWindowState = windowStateKeeper({
+  const winState = windowStateKeeper({
     defaultWidth: 320,
     defaultHeight: 100,
     x: 50,
@@ -30,8 +30,8 @@ const createWindow = () => {
     minHeight: 100,
     width: 320,
     height: 100,
-    x: mainWindowState.x,
-    y: mainWindowState.y,
+    x: winState.x,
+    y: winState.y,
     show: false,
     frame: false,
     title: '时钟',
@@ -48,7 +48,7 @@ const createWindow = () => {
   win.loadURL('http://localhost:3000/')
 
   // 保持窗口状态
-  mainWindowState.manage(win)
+  winState.manage(win)
 
   //   // 自动更新
   //   UpdateManager.init(win)
