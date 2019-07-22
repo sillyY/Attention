@@ -4,7 +4,7 @@
   "private": true,
   "main": "./app/main.js",
   "dependencies": {
-    "electron-window-state": "^5.0.3",
+    "consola": "^2.9.0",
     "polished": "^3.4.1",
     "react": "^16.8.6",
     "react-clock": "^2.3.0",
@@ -17,7 +17,7 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
-    "babel": "babel libs --watch --out-dir app",
+    "babel": "babel libs --out-dir app",
     "ele": "yarn run babel && electron .",
     "start": "react-scripts start",
     "build": "react-scripts build",

@@ -1,10 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Text } from 'rebass'
+import { Flex } from 'rebass'
 import { connect } from 'react-redux'
+import { size } from 'polished'
 
 const Root = styled(Flex)`
-  margin-left: 50px;
+  margin-left: 20px;
+`
+const Time = styled(Flex)`
+  ${size('30px', '30px')}
+  font-size: 20px;
+  font-weight: 500;
+  color: #222;
+  text-align:center;
 `
 
 class Digital extends React.Component {
@@ -15,11 +23,11 @@ class Digital extends React.Component {
       minute &&
       second && (
         <Root>
-          <Text>{hour}</Text>
-          <Text>:</Text>
-          <Text>{minute}</Text>
-          <Text>:</Text>
-          <Text>{second}</Text>
+          <Time>{hour}</Time>
+          <Time>:</Time>
+          <Time>{minute}</Time>
+          <Time>:</Time>
+          <Time>{second}</Time>
         </Root>
       )
     )

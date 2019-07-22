@@ -7,7 +7,6 @@ import * as actions from "../actionTypes"
 
 class Layout extends React.Component {
   componentDidMount() {
-    console.log(this.props)
     this.props.dispatch({
       type: actions.TOGGLE_TIME
     })
