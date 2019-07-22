@@ -1,5 +1,5 @@
 import { isWin } from './helper.js'
-import { BrowserWindow, globalShortcut, app } from 'electron'
+import { BrowserWindow, globalShortcut, app, Menu } from 'electron'
 import consola from 'consola'
 
 const log = consola.withTag('WINDOW SERVER')
@@ -11,6 +11,7 @@ class Win {
 
     // public
     this.win = null
+    this.child = null
     this.config = {
       minWidth,
       minHeight,
@@ -30,7 +31,7 @@ class Win {
       webPreferences: {
         defaultFontFamily: {
           standard: isWin() ? 'Microsoft Yahei' : 'PingFang SC'
-        },
+        }
         // devTools: env === 'dev' ? true : false // 正式环境禁用devtool
         // devTools: true
       }
@@ -55,7 +56,7 @@ class Win {
       }
       this.win.show()
     })
-  
+
     //最大 最小化事件
     this.win.on('closed', () => {
       this.win = null
@@ -69,7 +70,41 @@ class Win {
 
   setDockMenu(config) {
     log.info('设置DOCK菜单')
-    app.dock.setMenu(config)
+    const that = this;
+    const dockMenu = Menu.buildFromTemplate([
+      {
+        label: '备忘录',
+        submenu: [
+          {
+            label: '新增',
+            click() {
+              that.setChildWindow('MEMO')
+              that.setChildWindow('localhost:3000/memo/add')
+            }
+          },
+          {
+            label: '查看',
+            click() {
+              that.setChildWindow('MEMO')
+              that.setChildWindow('localhost:3000/memo/list')
+            }
+          }
+        ]
+      },
+      {
+        label: '检测更新',
+        click() {
+          console.log('New Window')
+        }
+      },
+      {
+        label: '设置',
+        click() {
+          console.log('设置')
+        }
+      }
+    ])
+    app.dock.setMenu(dockMenu)
   }
 
   setDevTools(config) {
@@ -89,6 +124,24 @@ class Win {
       app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
       app.exit(0)
     })
+  }
+
+  setRemote() {}
+
+  setChildWindow(options) {
+    const { name, config, url } = options
+    if(!this.child[name]) {
+      this.child[name] = new BrowserWindow({ ...{ parent: this.win }, ...config })
+    }
+    this.child[name].loadURL(url)
+    this.child[name].once('ready-to-show', () => {
+      this.child[name].show()
+    })
+  }
+  removeChildWindow(name) {
+    if (!this.child[name]) return
+    this.child[name] = null
+    delete this.child[name]
   }
 }
 

@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Provider } from 'react-redux'
+import { HashRouter, Route, Redirect } from 'react-router-dom'
+import { Switch } from 'react-router'
 import { createGlobalStyle } from 'styled-components'
 import { Flex } from 'rebass'
 
@@ -9,6 +11,7 @@ import store from './store'
 import Layout from './containers/Layout'
 import Figure from './containers/Figure'
 import Digital from './containers/Digital'
+import Add from './containers/Add'
 
 const GlobalStyle = createGlobalStyle`
     html,
@@ -48,19 +51,29 @@ const Container = styled(Flex)`
   align-items: center;
   height: 100%;
   padding: 0 20px;
-  background-color: #E7E1D8;
-  box-shadow: 20px 40px 10 10 #E7E1D8;
+  background-color: #e7e1d8;
+  box-shadow: 20px 40px 10 10 #e7e1d8;
 `
 function App() {
   return (
     <Provider store={store}>
       <GlobalStyle />
-      <Layout>
-        <Container>
-          <Figure />
-          <Digital />
-        </Container>
-      </Layout>
+      <HashRouter>
+        <Layout>
+          <Route exact path='/' render={() => <Redirect to='/clock' />} />
+          <Switch>
+            <Route path='/clock'>
+              <Container>
+                <Figure />
+                <Digital />
+              </Container>
+            </Route>
+            <Route path='/memo'>
+              <Route path='/memo/add' component={Add} />
+            </Route>
+          </Switch>
+        </Layout>
+      </HashRouter>
     </Provider>
   )
 }
