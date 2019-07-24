@@ -23,7 +23,8 @@ function createWindow() {
   win = new Win(options)
   win.setMenu(null)
   win.setDockMenu(menus.dockMenu)
-  win.setDevTools({ mode: 'detach' })
+  win.setRemote(win)
+  // win.setDevTools({ mode: 'detach' })
 }
 
 /**

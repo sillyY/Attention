@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>btn_close</title>
+    <desc>Created with Sketch.</desc>
+    <g id="老师端" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="登录-new" transform="translate(-945.000000, -23.000000)" fill="#FFFFFF">
+            <g id="btn_close" transform="translate(944.405797, 22.928571)">
+                <polygon id="Rectangle" transform="translate(8.324012, 7.826910) rotate(-315.000000) translate(-8.324012, -7.826910) " points="7.24972727 -1.6462409 9.52401186 -1.67308959 9.39829645 17.3000617 7.12401186 17.3269104"></polygon>
+                <polygon id="Rectangle" transform="translate(8.324012, 7.826910) rotate(-45.000000) translate(-8.324012, -7.826910) " points="7.12401186 -1.67308959 9.39829645 -1.6462409 9.52401186 17.3269104 7.24972727 17.3000617"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

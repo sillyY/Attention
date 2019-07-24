@@ -2,6 +2,9 @@ import { isWin } from './helper.js'
 import { BrowserWindow, globalShortcut, app, Menu } from 'electron'
 import consola from 'consola'
 
+import { isUndef, hasOwn } from './util'
+import remote from './remote'
+
 const log = consola.withTag('WINDOW SERVER')
 class Win {
   constructor(options) {
@@ -29,6 +32,7 @@ class Win {
       hasShadow: false,
       alwaysOnTop: true,
       webPreferences: {
+        nodeIntegration: true,
         defaultFontFamily: {
           standard: isWin() ? 'Microsoft Yahei' : 'PingFang SC'
         }
@@ -70,7 +74,7 @@ class Win {
 
   setDockMenu(config) {
     log.info('设置DOCK菜单')
-    const that = this;
+    const that = this
     const dockMenu = Menu.buildFromTemplate([
       {
         label: '备忘录',
@@ -78,15 +82,35 @@ class Win {
           {
             label: '新增',
             click() {
-              that.setChildWindow('MEMO')
-              that.setChildWindow('localhost:3000/memo/add')
+              const options = {
+                name: 'MEMO',
+                url: 'http://localhost:3000#/memo/add',
+                config: {
+                  show: false,
+                  frame: false,
+                  title: '新增备忘录',
+                  resizable: false,
+                  maximizable: false,
+                  minimizable: false,
+                  transparent: true,
+                  hasShadow: false,
+                  alwaysOnTop: true,
+                  webPreferences: {
+                    nodeIntegration: true,
+                    devTools: true,
+                    defaultFontFamily: {
+                      standard: isWin() ? 'Microsoft Yahei' : 'PingFang SC'
+                    }
+                  }
+                }
+              }
+              that.setChildWindow(options)
             }
           },
           {
             label: '查看',
             click() {
-              that.setChildWindow('MEMO')
-              that.setChildWindow('localhost:3000/memo/list')
+              log.info('点击查看菜单')
             }
           }
         ]
@@ -125,13 +149,19 @@ class Win {
       app.exit(0)
     })
   }
-
-  setRemote() {}
+  setRemote(win) {
+    // win 用于传递窗口对象，作为上下文对象
+    remote(win)
+  }
 
   setChildWindow(options) {
     const { name, config, url } = options
-    if(!this.child[name]) {
-      this.child[name] = new BrowserWindow({ ...{ parent: this.win }, ...config })
+    if (isUndef(this.child) || !hasOwn(this.child, name)) {
+      log.info('设置新子窗口')
+      if (isUndef(this.child)) this.child = {}
+      this.child[name] = new BrowserWindow(
+        Object.assign({ parent: this.win }, config)
+      )
     }
     this.child[name].loadURL(url)
     this.child[name].once('ready-to-show', () => {
@@ -140,6 +170,7 @@ class Win {
   }
   removeChildWindow(name) {
     if (!this.child[name]) return
+    this.child[name].close()
     this.child[name] = null
     delete this.child[name]
   }

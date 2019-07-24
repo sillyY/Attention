@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <title>时钟</title>
+    <script>
+      if (typeof require !== 'undefined') {
+        window.electron = require('electron')
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

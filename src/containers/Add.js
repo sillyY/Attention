@@ -2,18 +2,36 @@ import React from 'react'
 import styled from 'styled-components'
 import DateTimePicker from 'react-datetime-picker'
 import TextareaAutosize from 'react-textarea-autosize'
-import { Flex, Button } from 'rebass'
+import { Flex, Button, Image } from 'rebass'
 import { size } from 'polished'
 import { connect } from 'react-redux'
+import moment from 'moment'
+
+import { removeChildWindow } from '../utils/helper'
 
 import * as actions from '../actionTypes'
 
+import Close from "../images/btn_close.svg"
+
 const Root = styled(Flex)`
-  display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   height: 100vh;
   background-color: #3b4859;
+`
+
+const Header = styled(Flex)`
+  position: absolute;
+  top: 0;
+  justify-content: flex-end;
+  align-items:center;
+  padding: 0 20px;
+  ${size('60px', '100%')};
+  li {
+		display: inline-flex;
+    cursor: pointer;
+  }
 `
 
 const Form = styled(Flex)`
@@ -105,6 +123,13 @@ class Add extends React.Component {
     })
   }
 
+  handleEvent(type) {
+    if(!type) return
+    if(type === 'close') {
+      removeChildWindow('MEMO')
+    }
+  }
+
   /**
    * 检查值是否为空
    *
@@ -140,7 +165,7 @@ class Add extends React.Component {
       payload: {
         title,
         content,
-        date
+        date: moment(date).unix()
       }
     })
   }
@@ -148,6 +173,11 @@ class Add extends React.Component {
     const { title, content, date } = this.state
     return (
       <Root>
+        <Header >
+          <li onClick={this.handleEvent.bind(this, "close")}>
+            <Image src={Close} width="22px" height="21px" />
+          </li>
+        </Header>
         <Form>
           <Label>
             标题:
